@@ -1,21 +1,21 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
+  "name": "oci-bastion-action",
+  "description": "Fast NodeJS action to automate creation of OCI Bastion session",
   "version": "0.0.0",
-  "author": "",
+  "author": "Domeniko Kina",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/domenikk/oci-bastion-action",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/domenikk/oci-bastion-action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/domenikk/oci-bastion-action/issues"
   },
   "keywords": [
-    "actions",
-    "node",
-    "setup"
+    "oci",
+    "bastion",
+    "action"
   ],
   "exports": {
     ".": "./dist/index.js"
@@ -35,7 +35,7 @@
     "test": "npx jest",
     "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
   },
-  "license": "MIT",
+  "license": "MPL-2.0",
   "jest": {
     "preset": "ts-jest",
     "verbose": true,
