@@ -2,23 +2,75 @@ name: 'The name of your action here'
 description: 'Provide a description here'
 author: 'Your name or organization here'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
+  icon: 'cloud'
   color: 'red'
 
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  oci-user:
+    description: >-
+      OCID of the user calling the API. Example: `ocid1.user.oc1..<unique_ID>`
+    required: false
+  oci-tenancy:
+    description: >-
+      OCID of your tenancy. Example: `ocid1.tenancy.oc1..<unique_ID>`
+    required: false
+  oci-fingerprint:
+    description: >-
+      Fingerprint for the public key that was added for `oci-user`.
+    required: false
+  oci-key-content:
+    description: >-
+      Private key content in PEM format.
+    required: false
+  oci-region:
+    description: >-
+      An Oracle Cloud Infrastructure region. Example: `us-ashburn-1`
+    required: false
+  bastion-id:
+    description: >-
+      OCID of the bastion. Example: `ocid1.bastion.oc1..<unique_ID>`
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  public-key:
+    description: >-
+      The public key in OpenSSH format of the SSH key pair for the session.  
+      When you connect to the session, you must provide the private key of the same SSH key pair.
+    required: true
+  session-ttl-seconds:
+    description: >-
+      The amount of time (in seconds) the session can remain active.
+    required: false
+    default: '3600'
+  session-type:
+    description: >-
+      Session type as described in:
+      https://docs.oracle.com/en-us/iaas/Content/Bastion/Concepts/bastionoverview.htm#session_types.  
+      One of: `MANAGED_SSH`, `PORT_FORWARDING` or `DYNAMIC_PORT_FORWARDING`.
+    required: true
+  target-resource-id:
+    description: >-
+      The unique identifier (OCID) of the target resource.
+    required: false
+  target-resource-fqdn:
+    description: >-
+      The Fully Qualified Domain Name of the target resource that the session connects to.
+    required: false
+  target-resource-private-ip:
+    description: >-
+      The private IP address of the target resource that the session connects to.
+    required: false
+  target-resource-port:
+    description: >-
+      The port number to connect to on the target resource.
+    required: false
+  target-resource-user:
+    description: >-
+      The name of the user on the target resource operating system that the session uses for the
+      connection.  
+      Required if `session-type` is `MANAGED_SSH`.
+    required: false
 
 runs:
   using: node20
   main: dist/index.js
+  post: dist/cleanup.js
