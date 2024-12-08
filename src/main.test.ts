@@ -40,8 +40,8 @@ mock.module('oci-computeinstanceagent', () => {
 describe('main', () => {
   describe('allowCurrentIp', () => {
     const publicIp = '192.168.1.10';
-    let logger = { info: mock(), debug: mock() };
-    let ipProvider = mock(async () => publicIp);
+    const logger = { info: mock(), debug: mock() };
+    const ipProvider = mock(async () => publicIp);
 
     it('should throw an error if bastion is not found', async () => {
       const { BastionClient } = await import('oci-bastion');
@@ -94,7 +94,7 @@ describe('main', () => {
   });
 
   describe('enableBastionPlugin', () => {
-    let logger = { debug: mock(), info: mock(), warning: mock() };
+    const logger = { debug: mock(), info: mock(), warning: mock() };
 
     it('should throw an error if instance not found', async () => {
       const { ComputeClient } = await import('oci-core');
@@ -350,7 +350,7 @@ describe('main', () => {
   });
 
   describe('createSession', () => {
-    let logger = { info: mock() };
+    const logger = { info: mock() };
 
     it('should return existing active session if found', async () => {
       const { BastionClient, models: bastionModels } = await import('oci-bastion');

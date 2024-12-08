@@ -7,8 +7,8 @@ export async function sleep(ms: number): Promise<void> {
 }
 
 export function compareFields(
-  a: Record<string, any>,
-  b: Record<string, any>,
+  a: Record<string, unknown>,
+  b: Record<string, unknown>,
   fields: string[]
 ): boolean {
   return fields.every(field => {

@@ -30,20 +30,19 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        id: setup-node
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        id: setup-bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version-file: .node-version
-          cache: npm
+          bun-version-file: '.bun-version'
 
       - name: Install Dependencies
         id: install
-        run: npm ci
+        run: bun install
 
       - name: Build dist/ Directory
         id: build
-        run: npm run bundle
+        run: bun run bundle
 
       # This will fail the workflow if the `dist/` directory is different than
       # expected.

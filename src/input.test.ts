@@ -1,15 +1,11 @@
-import { describe, it, expect, mock, spyOn, afterEach, beforeEach } from 'bun:test';
+import { describe, it, expect, mock, spyOn, beforeEach } from 'bun:test';
 import { models as bastionModels } from 'oci-bastion';
 import { ConfigFileReader, Region } from 'oci-common';
 import * as fs from 'fs';
 import { parse as parseYaml } from 'yaml';
 import * as input from './input.js';
 
-const RequiredInputs = [
-  'bastion-id',
-  'public-key',
-  'session-type'
-];
+const RequiredInputs = ['bastion-id', 'public-key', 'session-type'];
 
 const mockOciKeyContent = `-----BEGIN RSA PRIVATE KEY-----
 MIIBOgIBAAJBAKj34GkxFhD90vcNLYLInFEX6Ppy1tPf9Cnzj4p4WGeKLs1Pt8Qu
@@ -201,7 +197,7 @@ describe('input', () => {
     });
 
     it('should throw an error if key file is not found', () => {
-      const configFileReaderMock = spyOn(ConfigFileReader, 'parseDefault').mockImplementationOnce(
+      const configFileReaderMock = spyOn(ConfigFileReader, 'parseDefault').mockImplementation(
         // @ts-ignore
         () => {
           return {
@@ -268,7 +264,7 @@ describe('input', () => {
   });
 
   describe('parseCredentials', () => {
-    let debug = mock();
+    const debug = mock();
     const parseCredentialsFromInputMock = spyOn(input, 'parseCredentialsFromInput');
     const parseCredentialsFromEnvMock = spyOn(input, 'parseCredentialsFromEnv');
     const parseCredentialsFromFileMock = spyOn(input, 'parseCredentialsFromFile');
@@ -382,7 +378,7 @@ describe('input', () => {
   });
 
   describe('parseInputs', () => {
-    let debug = mock();
+    const debug = mock();
 
     it('should match required inputs in action metadata file', () => {
       const actionMetadata = parseYaml(fs.readFileSync('./action.yml', 'utf8'));
@@ -613,11 +609,12 @@ function setEnvInputs(prefix: string, inputs: Record<string, string | undefined>
 }
 
 function copyEnvInputs(prefix: string, names?: string[]): Record<string, string | undefined> {
-  if (!names) {
-    names = Object.keys(process.env).filter(key => key.startsWith(prefix));
+  let varNames = names;
+  if (!varNames) {
+    varNames = Object.keys(process.env).filter(key => key.startsWith(prefix));
   }
 
-  return names.reduce(
+  return varNames.reduce(
     (acc, key) => {
       acc[key] = process.env[key];
       return acc;

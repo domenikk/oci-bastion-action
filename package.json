@@ -23,12 +23,14 @@
     ".": "./dist/index.js"
   },
   "scripts": {
-    "test": "bun test --coverage",
-    "test:ci": "bun test --coverage --coverage-reporter=lcov",
+    "test": "bun test --coverage --coverage-reporter=lcov",
     "coverage": "bunx lcov-badge2 -o ./badges/coverage.svg coverage/lcov.info",
     "format:check": "bunx prettier --check .",
     "format:write": "bunx prettier --write .",
-    "package": "bunx ncc build src/index.ts -o dist --source-map --license licenses.txt"
+    "lint": "bunx eslint",
+    "package": "bunx ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "bundle": "bun run format:write && bun run package",
+    "all": "bun run format:write && bun run lint && bun run test && bun run coverage && bun run package"
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
@@ -41,8 +43,12 @@
     "public-ip": "^7.0.1"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^2.11.0",
     "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
     "@vercel/ncc": "^0.38.3",
+    "eslint": "^9.16.0",
     "lcov-badge2": "^1.1.2",
     "prettier": "^3.3.3",
     "typescript": "^5.7.2",
