@@ -42,6 +42,7 @@ describe('main', () => {
     const publicIp = '192.168.1.10';
     const logger = { info: mock(), debug: mock() };
     const ipProvider = mock(async () => publicIp);
+    const saveState = mock();
 
     it('should throw an error if bastion is not found', async () => {
       const { BastionClient } = await import('oci-bastion');
@@ -50,7 +51,9 @@ describe('main', () => {
       // @ts-ignore
       client.getBastion.mockResolvedValue({ bastion: null });
 
-      await expect(main.allowCurrentIp(client, 'bastionId', ipProvider, logger)).rejects.toThrow();
+      await expect(
+        main.allowCurrentIp(client, 'bastionId', ipProvider, logger, saveState)
+      ).rejects.toThrow();
     });
 
     it('should take no action if the current IP is already allowed', async () => {
@@ -64,8 +67,9 @@ describe('main', () => {
         }
       });
 
-      await main.allowCurrentIp(client, 'bastionId', ipProvider, logger);
+      await main.allowCurrentIp(client, 'bastionId', ipProvider, logger, saveState);
 
+      expect(saveState).toHaveBeenCalledWith('currentPublicIp', publicIp);
       expect(logger.info).toHaveBeenCalledWith(`Current IP ${publicIp} is already allowed`);
       expect(client.updateBastion).not.toHaveBeenCalled();
     });
@@ -81,8 +85,9 @@ describe('main', () => {
         }
       });
 
-      await main.allowCurrentIp(client, 'bastionId', ipProvider, logger);
+      await main.allowCurrentIp(client, 'bastionId', ipProvider, logger, saveState);
 
+      expect(saveState).toHaveBeenCalledWith('currentPublicIp', publicIp);
       expect(logger.info).toHaveBeenCalledWith(
         `Current IP ${publicIp} is not allowed, adding to the list`
       );
@@ -745,10 +750,11 @@ describe('main', () => {
       return {
         warning: mock(),
         setOutput: mock(),
-        setFailed: mock()
+        setFailed: mock(),
+        saveState: mock()
       };
     });
-    const { warning, setOutput, setFailed } = await import('@actions/core');
+    const { warning, setOutput, setFailed, saveState } = await import('@actions/core');
 
     afterEach(() => {
       allowCurrentIpMock.mockRestore();
@@ -760,6 +766,8 @@ describe('main', () => {
       setOutput.mockClear();
       // @ts-ignore
       setFailed.mockClear();
+      // @ts-ignore
+      saveState.mockClear();
     });
 
     it('should fail if required inputs are missing', async () => {
@@ -772,6 +780,7 @@ describe('main', () => {
       await main.run();
 
       expect(parseInputs).toHaveBeenCalled();
+      expect(saveState).not.toHaveBeenCalled();
       expect(setOutput).not.toHaveBeenCalled();
       expect(setFailed).toHaveBeenCalledWith('Missing required inputs');
     });
@@ -803,6 +812,7 @@ describe('main', () => {
 
       await main.run();
 
+      expect(saveState).toHaveBeenCalled();
       expect(allowCurrentIpMock).toHaveBeenCalled();
       expect(enableBastionPluginMock).not.toHaveBeenCalled();
       expect(createSessionMock).not.toHaveBeenCalled();
@@ -840,6 +850,7 @@ describe('main', () => {
 
       await main.run();
 
+      expect(saveState).toHaveBeenCalled();
       expect(allowCurrentIpMock).toHaveBeenCalled();
       expect(enableBastionPluginMock).toHaveBeenCalled();
       expect(createSessionMock).not.toHaveBeenCalled();
@@ -883,6 +894,7 @@ describe('main', () => {
 
       await main.run();
 
+      expect(saveState).toHaveBeenCalled();
       expect(allowCurrentIpMock).toHaveBeenCalled();
       expect(enableBastionPluginMock).not.toHaveBeenCalled();
       expect(createSessionMock).not.toHaveBeenCalled();
@@ -932,6 +944,7 @@ describe('main', () => {
 
       await main.run();
 
+      expect(saveState).toHaveBeenCalled();
       expect(allowCurrentIpMock).toHaveBeenCalled();
       expect(enableBastionPluginMock).not.toHaveBeenCalled();
       expect(createSessionMock).toHaveBeenCalled();
@@ -972,6 +985,7 @@ describe('main', () => {
 
       await main.run();
 
+      expect(saveState).toHaveBeenCalled();
       expect(allowCurrentIpMock).toHaveBeenCalled();
       expect(enableBastionPluginMock).toHaveBeenCalled();
       expect(createSessionMock).toHaveBeenCalled();

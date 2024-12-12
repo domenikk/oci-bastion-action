@@ -1,4 +1,4 @@
-import { debug, info, warning, setFailed, setOutput } from '@actions/core';
+import { debug, info, warning, setFailed, setOutput, saveState } from '@actions/core';
 import { context } from '@actions/github';
 import { Context } from '@actions/github/lib/context.js';
 import { SimpleAuthenticationDetailsProvider } from 'oci-common';
@@ -16,6 +16,13 @@ export async function run(): Promise<void> {
   try {
     const inputs = parseInputs({ debug });
 
+    saveState('inputs.oci.tenancy', inputs.oci.tenancy);
+    saveState('inputs.oci.user', inputs.oci.user);
+    saveState('inputs.oci.fingerprint', inputs.oci.fingerprint);
+    saveState('inputs.oci.keyContent', inputs.oci.keyContent);
+    saveState('inputs.oci.regionId', inputs.oci.region.regionId);
+    saveState('inputs.bastionId', inputs.bastionId);
+
     const provider = new SimpleAuthenticationDetailsProvider(
       inputs.oci.tenancy,
       inputs.oci.user,
@@ -27,7 +34,7 @@ export async function run(): Promise<void> {
 
     const bastionClient = new BastionClient({ authenticationDetailsProvider: provider });
 
-    await allowCurrentIp(bastionClient, inputs.bastionId, publicIpv4, { info, debug });
+    await allowCurrentIp(bastionClient, inputs.bastionId, publicIpv4, { info, debug }, saveState);
 
     /**
      * Enable Bastion plugin for Managed SSH sessions
@@ -91,12 +98,15 @@ export async function allowCurrentIp(
   logger: {
     info: (message: string) => void;
     debug: (message: string) => void;
-  }
+  },
+  saveState: (key: string, value: string) => void
 ): Promise<void> {
   const [currentPublicIp, { bastion }] = await Promise.all([
     ipProvider(),
     client.getBastion({ bastionId })
   ]);
+
+  saveState('currentPublicIp', currentPublicIp);
 
   if (!bastion) {
     throw new Error(`Bastion not found: ${bastionId}`);

@@ -1,6 +1,6 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'oci-bastion-action'
+description: 'Fast NodeJS action to automate creation of OCI Bastion sessions'
+author: 'domenikk'
 
 branding:
   icon: 'cloud'
@@ -72,5 +72,5 @@ inputs:
 
 runs:
   using: node20
-  main: dist/index.js
-  post: dist/cleanup.js
+  main: dist/main/index.js
+  post: dist/cleanup/index.js
