@@ -42,3 +42,36 @@ jobs:
       - name: Test
         id: bun-ci-test
         run: bun run test
+
+  test-action:
+    name: GitHub Actions Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          oci-user: ${{ secrets.OCI_USER }}
+          oci-tenancy: ${{ secrets.OCI_TENANCY }}
+          oci-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
+          oci-key-content: ${{ secrets.OCI_KEY_CONTENT }}
+          oci-region: ${{ secrets.OCI_REGION }}
+          bastion-id: ${{ secrets.BASTION_ID }}
+          public-key: ${{ secrets.SESSION_PUBLIC_KEY }}
+          session-ttl-seconds: 1800
+          session-type: ${{ vars.SESSION_TYPE}}
+          target-resource-id: ${{ secrets.TARGET_RESOURCE_ID }}
+          target-resource-user: ${{ secrets.TARGET_RESOURCE_USER }}
+
+      - name: Print Output
+        id: output
+        run: |
+          echo "session-id: ${{ steps.test-action.outputs.session-id }}"
+          cat <<EOF
+          ssh-command: ${{ steps.test-action.outputs.ssh-command }}
+          EOF
