@@ -1,7 +1,7 @@
 {
   "name": "oci-bastion-action",
   "description": "Fast NodeJS action to automate creation of OCI Bastion sessions",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Domeniko Kina",
   "private": true,
   "homepage": "https://github.com/domenikk/oci-bastion-action",
