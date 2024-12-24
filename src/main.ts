@@ -10,7 +10,7 @@ import { Address4 } from 'ip-address';
 import { isIpAllowed } from './lib/ip.js';
 import { parseInputs } from './input.js';
 import { BASTION_PLUGIN_NAME } from './constants.js';
-import { compareFields, sleep } from './lib/util.js';
+import { compareFields, waitForState } from './lib/util.js';
 
 export async function run(): Promise<void> {
   try {
@@ -228,11 +228,18 @@ export async function createSession(
     logger.info(`Session is already being created: ${session.id}`);
     logger.info(`Waiting for session to become active...`);
 
-    const activeSession = await waitForSession({
-      client,
-      sessionId: session.id,
-      desiredState: bastionModels.SessionLifecycleState.Active
+    await waitForState({
+      checkFn: async () => {
+        const {
+          session: { lifecycleState }
+        } = await client.getSession({ sessionId: session.id });
+
+        return lifecycleState === bastionModels.SessionLifecycleState.Active;
+      },
+      errorMsg: `Session ${session.id} did not reach desired state Active`
     });
+
+    const { session: activeSession } = await client.getSession({ sessionId: session.id });
 
     return activeSession;
   }
@@ -246,10 +253,19 @@ export async function createSession(
   logger.info(`Session created: ${createSessionResponse.session.id}`);
   logger.info(`Waiting for session to become active...`);
 
-  const activeSession = await waitForSession({
-    client,
-    sessionId: createSessionResponse.session.id,
-    desiredState: bastionModels.SessionLifecycleState.Active
+  await waitForState({
+    checkFn: async () => {
+      const {
+        session: { lifecycleState }
+      } = await client.getSession({ sessionId: createSessionResponse.session.id });
+
+      return lifecycleState === bastionModels.SessionLifecycleState.Active;
+    },
+    errorMsg: `Session ${createSessionResponse.session.id} did not reach desired state Active`
+  });
+
+  const { session: activeSession } = await client.getSession({
+    sessionId: createSessionResponse.session.id
   });
 
   return activeSession;
@@ -297,36 +313,4 @@ export async function findExistingSession({
   });
 
   return session;
-}
-
-export async function waitForSession({
-  client,
-  sessionId,
-  desiredState,
-  pollingInterval = 2000,
-  maxAttempts = 90
-}: {
-  client: BastionClient;
-  sessionId: string;
-  desiredState: bastionModels.SessionLifecycleState;
-  pollingInterval?: number;
-  maxAttempts?: number;
-}): Promise<bastionModels.Session> {
-  let attempts = 0;
-
-  while (attempts < maxAttempts) {
-    const { session } = await client.getSession({ sessionId });
-
-    if (session.lifecycleState === desiredState) return session;
-
-    await sleep(pollingInterval);
-
-    attempts++;
-  }
-
-  const elapsedSeconds = (maxAttempts * pollingInterval) / 1000;
-
-  throw new Error(
-    `Session ${sessionId} did not reach desired state ${desiredState} after ${elapsedSeconds} seconds`
-  );
 }

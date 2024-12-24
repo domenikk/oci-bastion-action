@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'bun:test';
-import { isPositiveInt, sleep, compareFields } from './util.js';
+import { describe, it, expect, mock } from 'bun:test';
+import { isPositiveInt, sleep, compareFields, waitForState } from './util.js';
 
 describe('util', () => {
   describe('isPositiveInt', () => {
@@ -74,6 +74,70 @@ describe('util', () => {
 
       expect(compareFields(a, b, ['a', 'b', 'c'])).toBe(true);
       expect(compareFields(b, a, ['a', 'b', 'c'])).toBe(true);
+    });
+  });
+
+  describe('waitForState', () => {
+    it('should throw an error if checkFn throws', async () => {
+      const checkFn = mock().mockRejectedValue(new Error('Session not found'));
+
+      expect(
+        waitForState({
+          checkFn,
+          pollingInterval: 1,
+          maxAttempts: 1
+        })
+      ).rejects.toThrow('Session not found');
+    });
+
+    it('should return immediately if resource is already in the desired state', async () => {
+      const checkFn = mock().mockResolvedValue(true);
+
+      expect(
+        waitForState({
+          checkFn,
+          pollingInterval: 1,
+          maxAttempts: 1
+        })
+      ).resolves.toBeUndefined();
+    });
+
+    it('should throw an error if resource does not reach the desired state', async () => {
+      const checkFn = mock();
+
+      for (let i = 0; i < 5; i++) {
+        checkFn.mockResolvedValueOnce(false);
+      }
+
+      const expectedElapsedTime = 4 / 1000;
+
+      expect(
+        waitForState({
+          checkFn,
+          pollingInterval: 1,
+          maxAttempts: 4,
+          errorMsg: 'Session sessionId did not reach desired state Active'
+        })
+      ).rejects.toThrow(
+        `Session sessionId did not reach desired state Active after ${expectedElapsedTime} seconds`
+      );
+    });
+
+    it('should return when it reaches the desired state within max attempts', async () => {
+      const checkFn = mock();
+      // return 'false' for the first 5 calls, then 'true'
+      for (let i = 0; i < 5; i++) {
+        checkFn.mockResolvedValueOnce(false);
+      }
+      checkFn.mockResolvedValueOnce(true);
+
+      expect(
+        waitForState({
+          checkFn,
+          pollingInterval: 1,
+          maxAttempts: 10
+        })
+      ).resolves.toBeUndefined();
     });
   });
 });
