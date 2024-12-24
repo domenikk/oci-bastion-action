@@ -30,3 +30,33 @@ export function tryFn<T>(fn: () => T): T | Error {
     return new Error(message, { cause: e });
   }
 }
+
+export async function waitForState({
+  checkFn,
+  pollingInterval = 2000,
+  maxAttempts = 90,
+  errorMsg = 'Desired state was not reached'
+}: {
+  checkFn: () => Promise<boolean>;
+  pollingInterval?: number;
+  maxAttempts?: number;
+  errorMsg?: string;
+}) {
+  let attempts = 0;
+
+  while (attempts < maxAttempts) {
+    const result = await checkFn();
+
+    if (result) {
+      return;
+    }
+
+    await sleep(pollingInterval);
+
+    attempts++;
+  }
+
+  const elapsedSeconds = (maxAttempts * pollingInterval) / 1000;
+
+  throw new Error(`${errorMsg} after ${elapsedSeconds} seconds.`);
+}
