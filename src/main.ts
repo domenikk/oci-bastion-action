@@ -40,7 +40,10 @@ export async function run(): Promise<void> {
      * Enable Bastion plugin for Managed SSH sessions
      * https://docs.oracle.com/en-us/iaas/Content/Bastion/Tasks/create-session-managed-ssh.htm
      */
-    if (inputs.targetResourceDetails.sessionType === bastionModels.SessionType.ManagedSsh) {
+    if (
+      inputs.autoEnableBastionPlugin &&
+      inputs.targetResourceDetails.sessionType === bastionModels.SessionType.ManagedSsh
+    ) {
       const computeClient = new ComputeClient({ authenticationDetailsProvider: provider });
       const pluginClient = new PluginClient({ authenticationDetailsProvider: provider });
       const instanceId = inputs.targetResourceDetails.targetResourceId;
@@ -176,30 +179,55 @@ export async function enableBastionPlugin(
 
   if (
     bastionPluginConfig?.desiredState ===
-      computeModels.InstanceAgentPluginConfigDetails.DesiredState.Enabled ||
+      computeModels.InstanceAgentPluginConfigDetails.DesiredState.Enabled &&
     instanceAgentPlugin.status === pluginModels.InstanceAgentPluginSummary.Status.Running
   ) {
-    logger.info(`Bastion plugin already enabled for instance ${instanceId}`);
+    logger.info(`Bastion plugin already enabled and running for instance ${instanceId}`);
     return;
   }
 
-  logger.debug(`Bastion plugin disabled for instance ${instanceId}, attempting to enable`);
+  if (
+    bastionPluginConfig?.desiredState ===
+    computeModels.InstanceAgentPluginConfigDetails.DesiredState.Disabled
+  ) {
+    logger.debug(`Bastion plugin disabled for instance ${instanceId}, attempting to enable`);
 
-  const pluginsConfig = agentConfig.pluginsConfig ?? [];
+    const pluginsConfig = agentConfig.pluginsConfig ?? [];
 
-  await computeClient.updateInstance({
-    instanceId,
-    updateInstanceDetails: {
-      agentConfig: {
-        pluginsConfig: [
-          ...pluginsConfig.filter(({ name }) => name !== BASTION_PLUGIN_NAME),
-          {
-            name: BASTION_PLUGIN_NAME,
-            desiredState: computeModels.InstanceAgentPluginConfigDetails.DesiredState.Enabled
-          }
-        ]
+    await computeClient.updateInstance({
+      instanceId,
+      updateInstanceDetails: {
+        agentConfig: {
+          pluginsConfig: [
+            ...pluginsConfig.filter(({ name }) => name !== BASTION_PLUGIN_NAME),
+            {
+              name: BASTION_PLUGIN_NAME,
+              desiredState: computeModels.InstanceAgentPluginConfigDetails.DesiredState.Enabled
+            }
+          ]
+        }
       }
-    }
+    });
+  }
+
+  logger.debug(`Waiting for Bastion plugin to be running...`);
+
+  /**
+   * It takes up to 10 minutes for the plugin to be enabled
+   */
+  await waitForState({
+    checkFn: async () => {
+      const { instanceAgentPlugin: updatedPlugin } = await pluginClient.getInstanceAgentPlugin({
+        compartmentId: instance.compartmentId,
+        instanceagentId: instanceId,
+        pluginName: BASTION_PLUGIN_NAME
+      });
+
+      return updatedPlugin.status === pluginModels.InstanceAgentPluginSummary.Status.Running;
+    },
+    pollingInterval: 5000,
+    maxAttempts: 120,
+    errorMsg: `${BASTION_PLUGIN_NAME} plugin did not reach desired state ${pluginModels.InstanceAgentPluginSummary.Status.Running}`
   });
 
   logger.info('Bastion plugin enabled successfully');

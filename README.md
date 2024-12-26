@@ -49,6 +49,7 @@ The provided user must have the necessary permissions to interact with the Basti
 | `target‑resource‑private‑ip` | (*optional*) The private IP address of the target resource that the session connects to
 | `target‑resource‑port`       | (*optional*) The port number to connect to on the target resource
 | `target‑resource‑user`       | (*optional*) The name of the user on the target resource operating system that the session uses for the connection. Required if `session-type` is `MANAGED_SSH`
+| `auto‑enable‑bastion‑plugin` | (*optional*) Automatically enable the bastion plugin on the target resource. Default: `false`
 
 ## Outputs
 

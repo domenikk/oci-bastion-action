@@ -69,6 +69,12 @@ inputs:
       connection.  
       Required if `session-type` is `MANAGED_SSH`.
     required: false
+  auto-enable-bastion-plugin:
+    description: >-
+      Automatically enable the Bastion plugin on the target resource, which is required if
+      `session-type` is `MANAGED_SSH`.
+    required: false
+    default: 'false'
 
 runs:
   using: node20
