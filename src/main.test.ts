@@ -207,7 +207,7 @@ describe('main', () => {
       pluginClient.getInstanceAgentPlugin.mockResolvedValue({
         instanceAgentPlugin: {
           name: BASTION_PLUGIN_NAME,
-          status: pluginModels.InstanceAgentPluginSummary.Status.UnknownValue
+          status: pluginModels.InstanceAgentPluginSummary.Status.Running
         }
       });
 
@@ -237,7 +237,7 @@ describe('main', () => {
       );
     });
 
-    it('should take no action if bastion plugin is already enabled or running', async () => {
+    it('should take no action if bastion plugin is already enabled and running', async () => {
       const { ComputeClient, models: computeModels } = await import('oci-core');
       const { PluginClient, models: pluginModels } = await import('oci-computeinstanceagent');
       // @ts-ignore
@@ -261,35 +261,6 @@ describe('main', () => {
       pluginClient.getInstanceAgentPlugin.mockResolvedValue({
         instanceAgentPlugin: {
           name: BASTION_PLUGIN_NAME,
-          status: pluginModels.InstanceAgentPluginSummary.Status.UnknownValue
-        }
-      });
-
-      await main.enableBastionPlugin(computeClient, pluginClient, 'instanceId', logger);
-
-      expect(logger.info).toHaveBeenCalledWith(
-        'Bastion plugin already enabled for instance instanceId'
-      );
-      expect(computeClient.updateInstance).not.toHaveBeenCalled();
-
-      // @ts-ignore
-      computeClient.getInstance.mockResolvedValue({
-        instance: {
-          agentConfig: {
-            pluginsConfig: [
-              {
-                name: BASTION_PLUGIN_NAME,
-                desiredState:
-                  computeModels.InstanceAgentPluginConfigDetails.DesiredState.UnknownValue
-              }
-            ]
-          }
-        }
-      });
-      // @ts-ignore
-      pluginClient.getInstanceAgentPlugin.mockResolvedValue({
-        instanceAgentPlugin: {
-          name: BASTION_PLUGIN_NAME,
           status: pluginModels.InstanceAgentPluginSummary.Status.Running
         }
       });
@@ -297,7 +268,7 @@ describe('main', () => {
       await main.enableBastionPlugin(computeClient, pluginClient, 'instanceId', logger);
 
       expect(logger.info).toHaveBeenCalledWith(
-        'Bastion plugin already enabled for instance instanceId'
+        'Bastion plugin already enabled and running for instance instanceId'
       );
       expect(computeClient.updateInstance).not.toHaveBeenCalled();
     });
@@ -326,10 +297,17 @@ describe('main', () => {
       // @ts-ignore
       const pluginClient = new PluginClient();
       // @ts-ignore
-      pluginClient.getInstanceAgentPlugin.mockResolvedValue({
+      pluginClient.getInstanceAgentPlugin.mockResolvedValueOnce({
         instanceAgentPlugin: {
           name: BASTION_PLUGIN_NAME,
           status: pluginModels.InstanceAgentPluginSummary.Status.Stopped
+        }
+      });
+      // @ts-ignore
+      pluginClient.getInstanceAgentPlugin.mockResolvedValueOnce({
+        instanceAgentPlugin: {
+          name: BASTION_PLUGIN_NAME,
+          status: pluginModels.InstanceAgentPluginSummary.Status.Running
         }
       });
 
@@ -736,7 +714,8 @@ describe('main', () => {
           sessionType: 'MANAGED_SSH',
           targetResourceId: 'targetResourceId',
           targetResourceOperatingSystemUserName: 'userName'
-        }
+        },
+        autoEnableBastionPlugin: true
       });
 
       allowCurrentIpMock = spyOn(main, 'allowCurrentIp').mockImplementationOnce(async () => {});
@@ -885,7 +864,7 @@ describe('main', () => {
 
       expect(saveState).toHaveBeenCalled();
       expect(allowCurrentIpMock).toHaveBeenCalled();
-      expect(enableBastionPluginMock).toHaveBeenCalled();
+      expect(enableBastionPluginMock).not.toHaveBeenCalled();
       expect(createSessionMock).toHaveBeenCalled();
       expect(setOutput).toHaveBeenCalledWith('session-id', 'sessionId');
       expect(setFailed).not.toHaveBeenCalled();

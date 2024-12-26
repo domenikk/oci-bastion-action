@@ -67,6 +67,7 @@ jobs:
           session-type: ${{ vars.SESSION_TYPE}}
           target-resource-id: ${{ secrets.TARGET_RESOURCE_ID }}
           target-resource-user: ${{ secrets.TARGET_RESOURCE_USER }}
+          auto-enable-bastion-plugin: true
 
       - name: Print Output
         id: output

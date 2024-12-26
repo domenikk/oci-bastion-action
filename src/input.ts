@@ -28,6 +28,7 @@ type Inputs = {
   publicKey: string;
   sessionTtlSeconds: number;
   targetResourceDetails: TargetResourceDetails;
+  autoEnableBastionPlugin: boolean;
 };
 
 export function parseInputs({ debug }: { debug: (message: string) => void }): Inputs {
@@ -52,7 +53,8 @@ export function parseInputs({ debug }: { debug: (message: string) => void }): In
     bastionId: getInput('bastion-id', { required: true }),
     publicKey: getInput('public-key', { required: true }),
     sessionTtlSeconds: Number(sessionTtl),
-    targetResourceDetails
+    targetResourceDetails,
+    autoEnableBastionPlugin: getInput('auto-enable-bastion-plugin') === 'true'
   };
 }
 
