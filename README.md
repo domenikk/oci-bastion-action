@@ -64,12 +64,28 @@ The provided user must have the necessary permissions to interact with the Basti
 
 ```yaml
 - uses: domenikk/oci-bastion-action@v1
+  id: bastion-session
   with:
     bastion-id: 'ocid1.bastion.oc1..<unique_ID>'
-    public-key: ${{ secrets.PUBLIC_KEY }}
+    public-key: ${{ secrets.SESSION_PUBLIC_KEY }}
     session-type: 'MANAGED_SSH'
     target-resource-id: 'ocid1.instance.oc1..<unique_ID>'
     target-resource-user: 'opc'
+```
+
+After the session is created, you can use another action like [appleboy/ssh-action](https://github.com/marketplace/actions/ssh-remote-commands) to connect via SSH:
+
+```yaml
+uses: appleboy/ssh-action@master
+with:
+  host: <instance-ip>
+  username: 'opc'
+  key: ${{ secrets.INSTANCE_PRIVATE_KEY }}
+  proxy_host: 'host.bastion.<region>.oci.oraclecloud.com'
+  proxy_username: ${{ steps.bastion-session.outputs.session-id }}
+  proxy_key: ${{ secrets.SESSION_PRIVATE_KEY }}
+  script: |
+    whoami
 ```
 
 ### Port Forwarding Session
