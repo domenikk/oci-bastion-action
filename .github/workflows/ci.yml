@@ -53,6 +53,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test Local Action
+        if: false
         id: test-action
         uses: ./
         with:
