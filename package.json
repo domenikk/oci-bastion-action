@@ -39,7 +39,7 @@
     "oci-bastion": "^2.99.0",
     "oci-common": "^2.99.0",
     "oci-computeinstanceagent": "^2.99.0",
-    "oci-core": "^2.99.0",
+    "oci-core": "^2.107.1",
     "public-ip": "^7.0.1"
   },
   "devDependencies": {
