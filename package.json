@@ -38,7 +38,7 @@
     "ip-address": "^10.0.1",
     "oci-bastion": "^2.99.0",
     "oci-common": "^2.99.0",
-    "oci-computeinstanceagent": "^2.99.0",
+    "oci-computeinstanceagent": "^2.108.0",
     "oci-core": "^2.99.0",
     "public-ip": "^7.0.1"
   },
