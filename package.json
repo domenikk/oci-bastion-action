@@ -36,7 +36,7 @@
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
     "ip-address": "^10.0.1",
-    "oci-bastion": "^2.99.0",
+    "oci-bastion": "^2.109.1",
     "oci-common": "^2.99.0",
     "oci-computeinstanceagent": "^2.99.0",
     "oci-core": "^2.99.0",

@@ -7,7 +7,7 @@
         "@actions/core": "^1.11.1",
         "@actions/github": "^6.0.0",
         "ip-address": "^10.0.1",
-        "oci-bastion": "^2.99.0",
+        "oci-bastion": "^2.109.1",
         "oci-common": "^2.99.0",
         "oci-computeinstanceagent": "^2.99.0",
         "oci-core": "^2.99.0",
@@ -394,7 +394,7 @@
 
     "nth-check": ["nth-check@2.1.1", "", { "dependencies": { "boolbase": "^1.0.0" } }, "sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w=="],
 
-    "oci-bastion": ["oci-bastion@2.99.0", "", { "dependencies": { "oci-common": "2.99.0", "oci-workrequests": "2.99.0" } }, "sha512-wIf8D+qj+yjmD2bbAcJv5O0aLag8YSUTBiTbRVn78WYNakg5dtXVUHuDfqDrDyv35stw8JzyrNjrMmfRYOqfRw=="],
+    "oci-bastion": ["oci-bastion@2.109.1", "", { "dependencies": { "oci-common": "2.109.1", "oci-workrequests": "2.109.1" } }, "sha512-a8dyTt9jZQ8iS+7UgU3U32wK73bisYUEhuSRwt0ChPrAs1PSlwPWs0V4qDkGyP4olYe8Qy7KdNFQM3dwgGVZew=="],
 
     "oci-common": ["oci-common@2.99.0", "", { "dependencies": { "@types/isomorphic-fetch": "0.0.35", "@types/jsonwebtoken": "9.0.0", "@types/jssha": "2.0.0", "@types/opossum": "4.1.1", "@types/sshpk": "1.10.3", "es6-promise": "4.2.6", "http-signature": "1.3.1", "isomorphic-fetch": "3.0.0", "jsonwebtoken": "9.0.0", "jssha": "2.4.1", "opossum": "5.0.1", "sshpk": "1.16.1", "uuid": "3.3.3" } }, "sha512-AkPtNqQ2BrsBXU69BsAF8D84D9NdtTIP0clMMspzmiWvYelPyx8Dttrqzi/fJi+58Jq71Qu0623vIyTtnS/iYA=="],
 
@@ -402,7 +402,7 @@
 
     "oci-core": ["oci-core@2.99.0", "", { "dependencies": { "oci-common": "2.99.0", "oci-workrequests": "2.99.0" } }, "sha512-EM0BRdsQWkIpplXFaus2yqSU4f7Hfv2ak8ez1s6hbdJbZVpEtX3yndMLmwgcwslSeoOv8z9VaEG2phVvzIJ8Dw=="],
 
-    "oci-workrequests": ["oci-workrequests@2.99.0", "", { "dependencies": { "oci-common": "2.99.0", "oci-workrequests": "2.99.0" } }, "sha512-LeybWI/pePQ2oWaQM4W69x9s1uqRo6qmDDF97zPvwdN0NvSLivNsRvY2OxLM3t9yhOT/Tu4KrHAGxtGTjaKvHw=="],
+    "oci-workrequests": ["oci-workrequests@2.109.1", "", { "dependencies": { "oci-common": "2.109.1", "oci-workrequests": "2.109.1" } }, "sha512-MbfHYMQXptumPtYUlWdT5oA2DSCZ5yTKV8Eb7FAhelVzj73aBpIszvITO8xFIgb4Tyr2BFdxsblmghb6z6jj2w=="],
 
     "once": ["once@1.4.0", "", { "dependencies": { "wrappy": "1" } }, "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w=="],
 
@@ -543,6 +543,14 @@
     "fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
     "micromatch/picomatch": ["picomatch@2.3.1", "", {}, "sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA=="],
+
+    "oci-bastion/oci-common": ["oci-common@2.109.1", "", { "dependencies": { "@types/isomorphic-fetch": "0.0.35", "@types/jsonwebtoken": "9.0.0", "@types/jssha": "2.0.0", "@types/opossum": "4.1.1", "@types/sshpk": "1.10.3", "es6-promise": "4.2.6", "http-signature": "1.3.1", "isomorphic-fetch": "3.0.0", "jsonwebtoken": "9.0.0", "jssha": "2.4.1", "opossum": "5.0.1", "sshpk": "1.16.1", "uuid": "3.3.3" } }, "sha512-nZ5zpVA/t13vAMCpBTsH224VTIODwwoSFeaBzywoy/m330QCmI3aDyoRYtX1f7GwaV3vYao9W+dG2H9axM5tIw=="],
+
+    "oci-computeinstanceagent/oci-workrequests": ["oci-workrequests@2.99.0", "", { "dependencies": { "oci-common": "2.99.0", "oci-workrequests": "2.99.0" } }, "sha512-LeybWI/pePQ2oWaQM4W69x9s1uqRo6qmDDF97zPvwdN0NvSLivNsRvY2OxLM3t9yhOT/Tu4KrHAGxtGTjaKvHw=="],
+
+    "oci-core/oci-workrequests": ["oci-workrequests@2.99.0", "", { "dependencies": { "oci-common": "2.99.0", "oci-workrequests": "2.99.0" } }, "sha512-LeybWI/pePQ2oWaQM4W69x9s1uqRo6qmDDF97zPvwdN0NvSLivNsRvY2OxLM3t9yhOT/Tu4KrHAGxtGTjaKvHw=="],
+
+    "oci-workrequests/oci-common": ["oci-common@2.109.1", "", { "dependencies": { "@types/isomorphic-fetch": "0.0.35", "@types/jsonwebtoken": "9.0.0", "@types/jssha": "2.0.0", "@types/opossum": "4.1.1", "@types/sshpk": "1.10.3", "es6-promise": "4.2.6", "http-signature": "1.3.1", "isomorphic-fetch": "3.0.0", "jsonwebtoken": "9.0.0", "jssha": "2.4.1", "opossum": "5.0.1", "sshpk": "1.16.1", "uuid": "3.3.3" } }, "sha512-nZ5zpVA/t13vAMCpBTsH224VTIODwwoSFeaBzywoy/m330QCmI3aDyoRYtX1f7GwaV3vYao9W+dG2H9axM5tIw=="],
 
     "@octokit/plugin-paginate-rest/@octokit/types/@octokit/openapi-types": ["@octokit/openapi-types@20.0.0", "", {}, "sha512-EtqRBEjp1dL/15V7WiX5LJMIxxkdiGJnabzYx5Apx4FkQIFgAfKumXeYAqqJCj1s+BMX4cPFIFC4OLCR6stlnA=="],
 
