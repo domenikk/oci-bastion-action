@@ -23,4 +23,5 @@ updates:
       bun-production:
         dependency-type: production
         update-types:
+          - minor
           - patch
