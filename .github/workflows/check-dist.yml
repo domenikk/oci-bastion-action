@@ -10,12 +10,13 @@
 name: Check Transpiled JavaScript
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+  workflow_run:
+    workflows: ['dependabot-build']
+    types:
+      - completed
 
 permissions:
   contents: read
