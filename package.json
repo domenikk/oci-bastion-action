@@ -34,12 +34,12 @@
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0",
+    "@actions/github": "^6.0.1",
     "ip-address": "^10.0.1",
-    "oci-bastion": "^2.99.0",
-    "oci-common": "^2.99.0",
-    "oci-computeinstanceagent": "^2.99.0",
-    "oci-core": "^2.99.0",
+    "oci-bastion": "^2.111.1",
+    "oci-common": "^2.111.1",
+    "oci-computeinstanceagent": "^2.111.1",
+    "oci-core": "^2.111.1",
     "public-ip": "^7.0.1"
   },
   "devDependencies": {
