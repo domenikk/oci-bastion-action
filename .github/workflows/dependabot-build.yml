@@ -56,8 +56,12 @@ jobs:
             git config --global user.email "dependabot[bot] <support@github.com>"
             git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
             git add -A
-            git commit -m "Update dist/ directory"
-            git push -u origin HEAD:${{ github.event.pull_request.head.ref }}
+
+            if git commit -m "Update dist/ directory"; then
+              git push -u origin HEAD:${{ github.event.pull_request.head.ref }}
+            else
+              echo "No changes to commit"
+            fi
           else
             echo "No changes to commit"
           fi
