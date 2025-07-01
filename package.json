@@ -43,14 +43,14 @@
     "public-ip": "^7.0.1"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^5.0.0",
+    "@stylistic/eslint-plugin": "^5.1.0",
     "@types/bun": "latest",
-    "@typescript-eslint/eslint-plugin": "^8.35.0",
-    "@typescript-eslint/parser": "^8.35.0",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
     "@vercel/ncc": "^0.38.3",
-    "eslint": "^9.29.0",
+    "eslint": "^9.30.0",
     "lcov-badge2": "^1.1.2",
-    "prettier": "^3.6.0",
+    "prettier": "^3.6.2",
     "typescript": "^5.8.3",
     "yaml": "^2.8.0"
   }
