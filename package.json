@@ -36,10 +36,10 @@
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.1",
     "ip-address": "^10.0.1",
-    "oci-bastion": "^2.111.2",
-    "oci-common": "^2.111.2",
-    "oci-computeinstanceagent": "^2.111.2",
-    "oci-core": "^2.111.2",
+    "oci-bastion": "^2.111.3",
+    "oci-common": "^2.111.3",
+    "oci-computeinstanceagent": "^2.111.3",
+    "oci-core": "^2.111.3",
     "public-ip": "^7.0.1"
   },
   "devDependencies": {
