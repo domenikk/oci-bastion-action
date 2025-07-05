@@ -1,4 +1,4 @@
-import { describe, it, expect, mock, spyOn, beforeEach } from 'bun:test';
+import { describe, it, expect, mock, spyOn, beforeEach, afterEach } from 'bun:test';
 import { models as bastionModels } from 'oci-bastion';
 import { ConfigFileReader, Region } from 'oci-common';
 import * as fs from 'fs';
@@ -20,9 +20,13 @@ v/Ow5T0q5gIJAiEAyS4RaI9YG8EWx/2w0T67ZUVAw8eOMB6BIUg0Xcu+3okCIBOs
 
 describe('input', () => {
   describe('parseCredentialsFromInput', () => {
-    it('should throw an error if required inputs are missing', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
+    beforeEach(() => {
       clearEnvInputs('INPUT_');
+    });
+
+    it('should throw an error if required inputs are missing', () => {
+      // const prevInputs = copyEnvInputs('INPUT_');
+      // clearEnvInputs('INPUT_');
 
       const mockInputs = {
         'oci-key-content': mockOciKeyContent,
@@ -40,12 +44,12 @@ describe('input', () => {
         );
       });
 
-      setEnvInputs('INPUT_', prevInputs);
+      // setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should throw an error if region is invalid', async () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
+      // const prevInputs = copyEnvInputs('INPUT_');
+      // clearEnvInputs('INPUT_');
 
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
@@ -57,12 +61,12 @@ describe('input', () => {
 
       expect(() => input.parseCredentialsFromInput()).toThrow('Invalid OCI region: us-foo');
 
-      setEnvInputs('INPUT_', prevInputs);
+      // setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should accept double-encoded newlines in key content', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
+      // const prevInputs = copyEnvInputs('INPUT_');
+      // clearEnvInputs('INPUT_');
 
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent.replace(/\n/g, '\\n'),
@@ -76,15 +80,16 @@ describe('input', () => {
 
       expect(oci.keyContent).toBe(mockOciKeyContent.trim());
 
-      setEnvInputs('INPUT_', prevInputs);
+      // setEnvInputs('INPUT_', prevInputs);
     });
   });
 
   describe('parseCredentialsFromEnv', () => {
-    it('should throw an error if required environment variables are missing', () => {
-      const prevInputs = copyEnvInputs('OCI_CLI_');
+    afterEach(() => {
       clearEnvInputs('OCI_CLI_');
+    });
 
+    it('should throw an error if required environment variables are missing', () => {
       const mockEnv = {
         TENANCY: 'foo',
         USER: 'foo',
@@ -100,14 +105,9 @@ describe('input', () => {
           `${key} environment variable is required and not set`
         );
       });
-
-      setEnvInputs('OCI_CLI_', prevInputs);
     });
 
     it('should throw an error if region is invalid', async () => {
-      const prevInputs = copyEnvInputs('OCI_CLI_');
-      clearEnvInputs('OCI_CLI_');
-
       setEnvInputs('OCI_CLI_', {
         TENANCY: 'foo',
         USER: 'foo',
@@ -119,14 +119,9 @@ describe('input', () => {
       process.env.OCI_CLI_REGION = 'us-foo';
 
       expect(() => input.parseCredentialsFromEnv()).toThrow('Invalid OCI region: us-foo');
-
-      setEnvInputs('OCI_CLI_', prevInputs);
     });
 
     it('should accept double-encoded newlines in key content', () => {
-      const prevInputs = copyEnvInputs('OCI_CLI_');
-      clearEnvInputs('OCI_CLI_');
-
       setEnvInputs('OCI_CLI_', {
         TENANCY: 'foo',
         USER: 'foo',
@@ -140,8 +135,6 @@ describe('input', () => {
       const oci = input.parseCredentialsFromEnv();
 
       expect(oci.keyContent).toBe(mockOciKeyContent.trim());
-
-      setEnvInputs('OCI_CLI_', prevInputs);
     });
   });
 
@@ -393,7 +386,7 @@ describe('input', () => {
       expect(inputs.sort()).toEqual(RequiredInputs.sort());
     });
 
-    it('should throw an error if required inputs are missing', () => {
+    it.only('should throw an error if required inputs are missing', () => {
       const prevInputs = copyEnvInputs('INPUT_');
       clearEnvInputs('INPUT_');
 

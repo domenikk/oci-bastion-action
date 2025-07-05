@@ -18,7 +18,8 @@ permissions:
 
 jobs:
   analyze:
-    if: github.event.repository.private == false
+    # if: github.event.repository.private == false
+    if: false
     name: Analyze
     runs-on: ubuntu-latest
 

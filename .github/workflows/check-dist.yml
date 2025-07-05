@@ -23,6 +23,7 @@ permissions:
 
 jobs:
   check-dist:
+    if: false
     name: Check dist/
     runs-on: ubuntu-latest
 

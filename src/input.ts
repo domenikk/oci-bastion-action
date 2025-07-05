@@ -32,6 +32,8 @@ type Inputs = {
 };
 
 export function parseInputs({ debug }: { debug: (message: string) => void }): Inputs {
+  console.log('INPUTS:', Object.entries(process.env).filter(([key]) => key.startsWith('INPUT_')));
+
   const oci = parseCredentials({ debug });
 
   const sessionTtl = getInput('session-ttl-seconds') || `${DEFAULT_SESSION_TTL_SECONDS}`;
