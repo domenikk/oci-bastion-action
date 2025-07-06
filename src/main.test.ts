@@ -1,4 +1,4 @@
-import { describe, it, expect, mock, afterEach, spyOn } from 'bun:test';
+import { describe, it, expect, mock, afterEach, spyOn, afterAll } from 'bun:test';
 import * as main from './main.js';
 import { BASTION_PLUGIN_NAME } from './constants.js';
 
@@ -612,11 +612,15 @@ describe('main', () => {
   });
 
   describe('run', async () => {
+    // https://github.com/oven-sh/bun/issues/7823
+    const { parseInputs } = await import('./input.js');
+
     mock.module('./input.js', () => {
       return {
         parseInputs: mock()
       };
     });
+
     // NOTE: https://github.com/oven-sh/bun/issues/6040#issuecomment-2253150377
     let allowCurrentIpMock = mock();
     let enableBastionPluginMock = mock();
@@ -646,10 +650,20 @@ describe('main', () => {
       saveState.mockClear();
     });
 
+    afterAll(() => {
+      // Restore the original parseInputs function
+      mock.restore();
+      mock.module('./input.js', () => {
+        return {
+          parseInputs
+        };
+      });
+    });
+
     it('should fail if required inputs are missing', async () => {
       const { parseInputs } = await import('./input.js');
       // @ts-ignore
-      parseInputs.mockImplementation(() => {
+      parseInputs.mockImplementationOnce(() => {
         throw new Error('Missing required inputs');
       });
 
@@ -664,7 +678,7 @@ describe('main', () => {
     it('should fail if allowCurrentIp throws an error', async () => {
       const { parseInputs } = await import('./input.js');
       // @ts-ignore
-      parseInputs.mockReturnValue({
+      parseInputs.mockReturnValueOnce({
         oci: {
           tenancy: 'tenancy',
           user: 'user',
@@ -699,7 +713,7 @@ describe('main', () => {
     it('should fail if enableBastionPlugin throws an error for MANAGED_SSH session', async () => {
       const { parseInputs } = await import('./input.js');
       // @ts-ignore
-      parseInputs.mockReturnValue({
+      parseInputs.mockReturnValueOnce({
         oci: {
           tenancy: 'tenancy',
           user: 'user',
@@ -739,7 +753,7 @@ describe('main', () => {
       const { BastionClient, models: bastionModels } = await import('oci-bastion');
       const { parseInputs } = await import('./input.js');
       // @ts-ignore
-      parseInputs.mockReturnValue({
+      parseInputs.mockReturnValueOnce({
         oci: {
           tenancy: 'tenancy',
           user: 'user',
@@ -783,7 +797,7 @@ describe('main', () => {
       const { BastionClient, models: bastionModels } = await import('oci-bastion');
       const { parseInputs } = await import('./input.js');
       // @ts-ignore
-      parseInputs.mockReturnValue({
+      parseInputs.mockReturnValueOnce({
         oci: {
           tenancy: 'tenancy',
           user: 'user',
@@ -833,7 +847,7 @@ describe('main', () => {
     it('should set the session ID in the output', async () => {
       const { parseInputs } = await import('./input.js');
       // @ts-ignore
-      parseInputs.mockReturnValue({
+      parseInputs.mockReturnValueOnce({
         oci: {
           tenancy: 'tenancy',
           user: 'user',

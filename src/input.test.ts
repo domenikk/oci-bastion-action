@@ -20,10 +20,11 @@ v/Ow5T0q5gIJAiEAyS4RaI9YG8EWx/2w0T67ZUVAw8eOMB6BIUg0Xcu+3okCIBOs
 
 describe('input', () => {
   describe('parseCredentialsFromInput', () => {
-    it('should throw an error if required inputs are missing', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
+    beforeEach(() => {
       clearEnvInputs('INPUT_');
+    });
 
+    it('should throw an error if required inputs are missing', () => {
       const mockInputs = {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -39,14 +40,9 @@ describe('input', () => {
           `Input required and not supplied: ${mockInput}`
         );
       });
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should throw an error if region is invalid', async () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-foo',
@@ -56,14 +52,9 @@ describe('input', () => {
       });
 
       expect(() => input.parseCredentialsFromInput()).toThrow('Invalid OCI region: us-foo');
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should accept double-encoded newlines in key content', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent.replace(/\n/g, '\\n'),
         'oci-region': 'us-ashburn-1',
@@ -75,16 +66,15 @@ describe('input', () => {
       const oci = input.parseCredentialsFromInput();
 
       expect(oci.keyContent).toBe(mockOciKeyContent.trim());
-
-      setEnvInputs('INPUT_', prevInputs);
     });
   });
 
   describe('parseCredentialsFromEnv', () => {
-    it('should throw an error if required environment variables are missing', () => {
-      const prevInputs = copyEnvInputs('OCI_CLI_');
+    beforeEach(() => {
       clearEnvInputs('OCI_CLI_');
+    });
 
+    it('should throw an error if required environment variables are missing', () => {
       const mockEnv = {
         TENANCY: 'foo',
         USER: 'foo',
@@ -100,14 +90,9 @@ describe('input', () => {
           `${key} environment variable is required and not set`
         );
       });
-
-      setEnvInputs('OCI_CLI_', prevInputs);
     });
 
     it('should throw an error if region is invalid', async () => {
-      const prevInputs = copyEnvInputs('OCI_CLI_');
-      clearEnvInputs('OCI_CLI_');
-
       setEnvInputs('OCI_CLI_', {
         TENANCY: 'foo',
         USER: 'foo',
@@ -119,14 +104,9 @@ describe('input', () => {
       process.env.OCI_CLI_REGION = 'us-foo';
 
       expect(() => input.parseCredentialsFromEnv()).toThrow('Invalid OCI region: us-foo');
-
-      setEnvInputs('OCI_CLI_', prevInputs);
     });
 
     it('should accept double-encoded newlines in key content', () => {
-      const prevInputs = copyEnvInputs('OCI_CLI_');
-      clearEnvInputs('OCI_CLI_');
-
       setEnvInputs('OCI_CLI_', {
         TENANCY: 'foo',
         USER: 'foo',
@@ -140,8 +120,6 @@ describe('input', () => {
       const oci = input.parseCredentialsFromEnv();
 
       expect(oci.keyContent).toBe(mockOciKeyContent.trim());
-
-      setEnvInputs('OCI_CLI_', prevInputs);
     });
   });
 
@@ -380,6 +358,10 @@ describe('input', () => {
   describe('parseInputs', () => {
     const debug = mock();
 
+    beforeEach(() => {
+      clearEnvInputs('INPUT_');
+    });
+
     it('should match required inputs in action metadata file', () => {
       const actionMetadata = parseYaml(fs.readFileSync('./action.yml', 'utf8'));
 
@@ -394,9 +376,6 @@ describe('input', () => {
     });
 
     it('should throw an error if required inputs are missing', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       const mockInputs = {
         'bastion-id': 'ocid1.bastion.oc1.iad.aaaaaaaa',
         'public-key': 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZz7',
@@ -410,14 +389,9 @@ describe('input', () => {
           `Input required and not supplied: ${requiredInput}`
         );
       });
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should throw an error if session type is invalid', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -430,14 +404,9 @@ describe('input', () => {
       });
 
       expect(() => input.parseInputs({ debug })).toThrow('Invalid session type: foo');
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should require target resource ID for managed SSH session', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -452,14 +421,9 @@ describe('input', () => {
       expect(() => input.parseInputs({ debug })).toThrow(
         'target-resource-id is required for managed SSH session'
       );
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should require target resource user for managed SSH session', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -475,14 +439,9 @@ describe('input', () => {
       expect(() => input.parseInputs({ debug })).toThrow(
         'target-resource-user is required for managed SSH session'
       );
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should throw an error if target resource port is invalid', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -516,14 +475,9 @@ describe('input', () => {
       expect(() => input.parseInputs({ debug })).toThrow(
         'target-resource-port must be a positive integer if specified'
       );
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should return target resource details for managed SSH session', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -544,14 +498,9 @@ describe('input', () => {
         targetResourceId: 'ocid1.instance.oc1.iad.aaaaaaaa',
         targetResourceOperatingSystemUserName: 'foo'
       });
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should return target resource details for port forwarding session', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -570,14 +519,9 @@ describe('input', () => {
         sessionType: bastionModels.SessionType.PortForwarding,
         targetResourceFqdn: 'example.com'
       });
-
-      setEnvInputs('INPUT_', prevInputs);
     });
 
     it('should return target resource details for dynamic port forwarding session', () => {
-      const prevInputs = copyEnvInputs('INPUT_');
-      clearEnvInputs('INPUT_');
-
       setEnvInputs('INPUT_', {
         'oci-key-content': mockOciKeyContent,
         'oci-region': 'us-ashburn-1',
@@ -594,8 +538,6 @@ describe('input', () => {
       expect(inputs.targetResourceDetails).toEqual({
         sessionType: bastionModels.SessionType.DynamicPortForwarding
       });
-
-      setEnvInputs('INPUT_', prevInputs);
     });
   });
 });
@@ -606,21 +548,6 @@ function setEnvInputs(prefix: string, inputs: Record<string, string | undefined>
 
     process.env[envKey] = value;
   });
-}
-
-function copyEnvInputs(prefix: string, names?: string[]): Record<string, string | undefined> {
-  let varNames = names;
-  if (!varNames) {
-    varNames = Object.keys(process.env).filter(key => key.startsWith(prefix));
-  }
-
-  return varNames.reduce(
-    (acc, key) => {
-      acc[key] = process.env[key];
-      return acc;
-    },
-    {} as Record<string, string | undefined>
-  );
 }
 
 function clearEnvInputs(prefix: string) {
