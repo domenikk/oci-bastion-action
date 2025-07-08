@@ -62756,6 +62756,7 @@ Realm.OC15 = Realm.register("oc15", "oraclecloud15.com");
 Realm.OC29 = Realm.register("oc29", "oraclecloud29.com");
 Realm.OC23 = Realm.register("oc23", "oraclecloud23.com");
 Realm.OC35 = Realm.register("oc35", "oraclecloud35.com");
+Realm.OC42 = Realm.register("oc42", "oraclecloud42.com");
 //# sourceMappingURL=realm.js.map
 
 /***/ }),
@@ -63208,6 +63209,8 @@ Region.US_THAMES_1 = Region.register("us-thames-1", realm_1.Realm.OC23, "ebl");
 Region.AP_SEOUL_2 = Region.register("ap-seoul-2", realm_1.Realm.OC35, "dtz");
 Region.AP_SUWON_1 = Region.register("ap-suwon-1", realm_1.Realm.OC35, "dln");
 Region.AP_CHUNCHEON_2 = Region.register("ap-chuncheon-2", realm_1.Realm.OC35, "bno");
+// OC42
+Region.US_ASHBURN_2 = Region.register("us-ashburn-2", realm_1.Realm.OC42, "yxj");
 //# sourceMappingURL=region.js.map
 
 /***/ }),
@@ -81894,7 +81897,7 @@ module.exports = parseParams
 /***/ 5367:
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"name":"oci-common","version":"2.111.3","description":"OCI Common module for NodeJS","repository":{"type":"git","url":"https://github.com/oracle/oci-typescript-sdk"},"main":"./index.js","typings":"./index","scripts":{},"author":{"name":"Oracle Cloud Infrastructure","email":""},"license":"(UPL-1.0 OR Apache-2.0)","dependencies":{"@types/isomorphic-fetch":"0.0.35","@types/jsonwebtoken":"9.0.0","@types/jssha":"2.0.0","@types/opossum":"4.1.1","@types/sshpk":"1.10.3","es6-promise":"4.2.6","http-signature":"1.3.1","isomorphic-fetch":"3.0.0","jsonwebtoken":"9.0.0","jssha":"2.4.1","opossum":"5.0.1","sshpk":"1.16.1","uuid":"3.3.3"},"devDependencies":{"@types/chai":"4.1.7","@types/node":"14.14.43","@types/mocha":"5.2.5","@types/node-fetch":"2.6.5","awesome-typescript-loader":"3.1.3","chai":"^4.2.0","mocha":"^5.2.0","source-map-loader":"0.2.1","ts-node":"^8.0.2","typescript":"4.1.3","webpack":"4.0.0","webpack-cli":"^3.3.0","node-fetch":"2.6.5"},"publishConfig":{"registry":"https://registry.npmjs.org"},"contributors":["Jyoti Saini <jyoti.s.saini@oracle.com>","Joe Levy <joe.levy@oracle.com>","Walt Tran <walt.tran@oracle.com>"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"name":"oci-common","version":"2.112.0","description":"OCI Common module for NodeJS","repository":{"type":"git","url":"https://github.com/oracle/oci-typescript-sdk"},"main":"./index.js","typings":"./index","scripts":{},"author":{"name":"Oracle Cloud Infrastructure","email":""},"license":"(UPL-1.0 OR Apache-2.0)","dependencies":{"@types/isomorphic-fetch":"0.0.35","@types/jsonwebtoken":"9.0.0","@types/jssha":"2.0.0","@types/opossum":"4.1.1","@types/sshpk":"1.10.3","es6-promise":"4.2.6","http-signature":"1.3.1","isomorphic-fetch":"3.0.0","jsonwebtoken":"9.0.0","jssha":"2.4.1","opossum":"5.0.1","sshpk":"1.16.1","uuid":"3.3.3"},"devDependencies":{"@types/chai":"4.1.7","@types/node":"14.14.43","@types/mocha":"5.2.5","@types/node-fetch":"2.6.5","awesome-typescript-loader":"3.1.3","chai":"^4.2.0","mocha":"^5.2.0","source-map-loader":"0.2.1","ts-node":"^8.0.2","typescript":"4.1.3","webpack":"4.0.0","webpack-cli":"^3.3.0","node-fetch":"2.6.5"},"publishConfig":{"registry":"https://registry.npmjs.org"},"contributors":["Jyoti Saini <jyoti.s.saini@oracle.com>","Joe Levy <joe.levy@oracle.com>","Walt Tran <walt.tran@oracle.com>"]}');
 
 /***/ }),
 
