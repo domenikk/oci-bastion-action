@@ -5,6 +5,9 @@
 [![CodeQL](https://github.com/domenikk/oci-bastion-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/domenikk/oci-bastion-action/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
+<br/><br/>
+![Architecture diagram](./docs/img/bastion.svg)
+<br/><br/>
 
 This action automates the creation of sessions on Oracle Cloud Infrastructure (OCI) [Bastion service](https://docs.oracle.com/en-us/iaas/Content/Bastion/Concepts/bastionoverview.htm) by:
 - Adding the IP address of the runner to the bastion's allowed CIDR list
