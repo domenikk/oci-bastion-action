@@ -63161,7 +63161,6 @@ Region.SA_VALPARAISO_1 = Region.register("sa-valparaiso-1", realm_1.Realm.OC1, "
 Region.AP_SINGAPORE_2 = Region.register("ap-singapore-2", realm_1.Realm.OC1, "xsp");
 Region.ME_RIYADH_1 = Region.register("me-riyadh-1", realm_1.Realm.OC1, "ruh");
 Region.AP_DELHI_1 = Region.register("ap-delhi-1", realm_1.Realm.OC1, "onm");
-Region.AP_KULAI_1 = Region.register("ap-kulai-1", realm_1.Realm.OC1, "fyv");
 Region.AP_BATAM_1 = Region.register("ap-batam-1", realm_1.Realm.OC1, "hsg");
 // OC2
 Region.US_LANGLEY_1 = Region.register("us-langley-1", realm_1.Realm.OC2, "lfi");
@@ -81900,7 +81899,7 @@ module.exports = parseParams
 /***/ 5367:
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"name":"oci-common","version":"2.114.0","description":"OCI Common module for NodeJS","repository":{"type":"git","url":"https://github.com/oracle/oci-typescript-sdk"},"main":"./index.js","typings":"./index","scripts":{},"author":{"name":"Oracle Cloud Infrastructure","email":""},"license":"(UPL-1.0 OR Apache-2.0)","dependencies":{"@types/isomorphic-fetch":"0.0.35","@types/jsonwebtoken":"9.0.0","@types/jssha":"2.0.0","@types/opossum":"4.1.1","@types/sshpk":"1.10.3","es6-promise":"4.2.6","http-signature":"1.3.1","isomorphic-fetch":"3.0.0","jsonwebtoken":"9.0.0","jssha":"2.4.1","opossum":"5.0.1","sshpk":"1.16.1","uuid":"3.3.3"},"devDependencies":{"@types/chai":"4.1.7","@types/node":"14.14.43","@types/mocha":"5.2.5","@types/node-fetch":"2.6.5","awesome-typescript-loader":"3.1.3","chai":"^4.2.0","mocha":"^5.2.0","source-map-loader":"0.2.1","ts-node":"^8.0.2","typescript":"4.1.3","webpack":"4.0.0","webpack-cli":"^3.3.0","node-fetch":"2.6.5"},"publishConfig":{"registry":"https://registry.npmjs.org"},"contributors":["Jyoti Saini <jyoti.s.saini@oracle.com>","Joe Levy <joe.levy@oracle.com>","Walt Tran <walt.tran@oracle.com>"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"name":"oci-common","version":"2.114.1","description":"OCI Common module for NodeJS","repository":{"type":"git","url":"https://github.com/oracle/oci-typescript-sdk"},"main":"./index.js","typings":"./index","scripts":{},"author":{"name":"Oracle Cloud Infrastructure","email":""},"license":"(UPL-1.0 OR Apache-2.0)","dependencies":{"@types/isomorphic-fetch":"0.0.35","@types/jsonwebtoken":"9.0.0","@types/jssha":"2.0.0","@types/opossum":"4.1.1","@types/sshpk":"1.10.3","es6-promise":"4.2.6","http-signature":"1.3.1","isomorphic-fetch":"3.0.0","jsonwebtoken":"9.0.0","jssha":"2.4.1","opossum":"5.0.1","sshpk":"1.16.1","uuid":"3.3.3"},"devDependencies":{"@types/chai":"4.1.7","@types/node":"14.14.43","@types/mocha":"5.2.5","@types/node-fetch":"2.6.5","awesome-typescript-loader":"3.1.3","chai":"^4.2.0","mocha":"^5.2.0","source-map-loader":"0.2.1","ts-node":"^8.0.2","typescript":"4.1.3","webpack":"4.0.0","webpack-cli":"^3.3.0","node-fetch":"2.6.5"},"publishConfig":{"registry":"https://registry.npmjs.org"},"contributors":["Jyoti Saini <jyoti.s.saini@oracle.com>","Joe Levy <joe.levy@oracle.com>","Walt Tran <walt.tran@oracle.com>"]}');
 
 /***/ }),
 
