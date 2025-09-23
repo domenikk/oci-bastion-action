@@ -40,7 +40,7 @@
     "oci-common": "^2.118.0",
     "oci-computeinstanceagent": "^2.118.0",
     "oci-core": "^2.118.0",
-    "public-ip": "^7.0.1"
+    "public-ip": "^8.0.0"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.4.0",
