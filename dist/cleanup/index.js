@@ -63178,6 +63178,7 @@ Region.AP_CHIYODA_1 = Region.register("ap-chiyoda-1", realm_1.Realm.OC8, "nja");
 Region.AP_IBARAKI_1 = Region.register("ap-ibaraki-1", realm_1.Realm.OC8, "ukb");
 // OC9
 Region.ME_DCC_MUSCAT_1 = Region.register("me-dcc-muscat-1", realm_1.Realm.OC9, "mct");
+Region.ME_IBRI_1 = Region.register("me-ibri-1", realm_1.Realm.OC9, "ibr");
 // OC10
 Region.AP_DCC_CANBERRA_1 = Region.register("ap-dcc-canberra-1", realm_1.Realm.OC10, "wga");
 // OC14
@@ -81903,7 +81904,7 @@ module.exports = parseParams
 /***/ 5367:
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"name":"oci-common","version":"2.117.1","description":"OCI Common module for NodeJS","repository":{"type":"git","url":"https://github.com/oracle/oci-typescript-sdk"},"main":"./index.js","typings":"./index","scripts":{},"author":{"name":"Oracle Cloud Infrastructure","email":""},"license":"(UPL-1.0 OR Apache-2.0)","dependencies":{"@types/isomorphic-fetch":"0.0.35","@types/jsonwebtoken":"9.0.0","@types/jssha":"2.0.0","@types/opossum":"4.1.1","@types/sshpk":"1.10.3","es6-promise":"4.2.6","http-signature":"1.3.1","isomorphic-fetch":"3.0.0","jsonwebtoken":"9.0.0","jssha":"2.4.1","opossum":"5.0.1","sshpk":"1.16.1","uuid":"3.3.3"},"devDependencies":{"@types/chai":"4.1.7","@types/node":"14.14.43","@types/mocha":"5.2.5","@types/node-fetch":"2.6.5","awesome-typescript-loader":"3.1.3","chai":"^4.2.0","mocha":"^5.2.0","source-map-loader":"0.2.1","ts-node":"^8.0.2","typescript":"4.1.3","webpack":"4.0.0","webpack-cli":"^3.3.0","node-fetch":"2.6.5"},"publishConfig":{"registry":"https://registry.npmjs.org"},"contributors":["Jyoti Saini <jyoti.s.saini@oracle.com>","Joe Levy <joe.levy@oracle.com>","Walt Tran <walt.tran@oracle.com>"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"name":"oci-common","version":"2.118.0","description":"OCI Common module for NodeJS","repository":{"type":"git","url":"https://github.com/oracle/oci-typescript-sdk"},"main":"./index.js","typings":"./index","scripts":{},"author":{"name":"Oracle Cloud Infrastructure","email":""},"license":"(UPL-1.0 OR Apache-2.0)","dependencies":{"@types/isomorphic-fetch":"0.0.35","@types/jsonwebtoken":"9.0.0","@types/jssha":"2.0.0","@types/opossum":"4.1.1","@types/sshpk":"1.10.3","es6-promise":"4.2.6","http-signature":"1.3.1","isomorphic-fetch":"3.0.0","jsonwebtoken":"9.0.0","jssha":"2.4.1","opossum":"5.0.1","sshpk":"1.16.1","uuid":"3.3.3"},"devDependencies":{"@types/chai":"4.1.7","@types/node":"14.14.43","@types/mocha":"5.2.5","@types/node-fetch":"2.6.5","awesome-typescript-loader":"3.1.3","chai":"^4.2.0","mocha":"^5.2.0","source-map-loader":"0.2.1","ts-node":"^8.0.2","typescript":"4.1.3","webpack":"4.0.0","webpack-cli":"^3.3.0","node-fetch":"2.6.5"},"publishConfig":{"registry":"https://registry.npmjs.org"},"contributors":["Jyoti Saini <jyoti.s.saini@oracle.com>","Joe Levy <joe.levy@oracle.com>","Walt Tran <walt.tran@oracle.com>"]}');
 
 /***/ }),
 
