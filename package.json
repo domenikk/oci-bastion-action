@@ -33,7 +33,7 @@
     "all": "bun run format:write && bun run lint && bun run test && bun run coverage && bun run package"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
+    "@actions/core": "^2.0.1",
     "@actions/github": "^6.0.1",
     "ip-address": "^10.1.0",
     "oci-bastion": "^2.122.0",
